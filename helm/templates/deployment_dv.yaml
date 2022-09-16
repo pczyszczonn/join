@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "devops-challenge.fullname" . }}-dv"
+  labels:
+    app: accelerationDv
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: accelerationDv
+  template:
+    metadata:
+      labels:
+        app: accelerationDv
+    spec:
+      containers:
+        - name: "{{ .Chart.Name }}-acceletarion-dv"
+          image: "{{ .Values.imageRegistry }}{{ .Values.accelerationDv.image.name }}:{{ .Values.accelerationDv.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3001
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          command: ["yarn", "start"]
+          env:
+            - name: WEB_PORT
+              value: "3001"

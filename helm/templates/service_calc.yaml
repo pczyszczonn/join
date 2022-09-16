@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: acceleration-calc-svc
+spec:
+  type: {{ .Values.accelerationCalc.service.type }}
+  ports:
+    - port: {{ .Values.accelerationCalc.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: accelerationCalc

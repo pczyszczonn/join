@@ -1,0 +1,4 @@
+FROM node:alpine3.15
+
+ADD src .
+RUN yarn install && yarn build

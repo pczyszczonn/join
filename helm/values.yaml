@@ -1,0 +1,24 @@
+replicaCount: 2
+imageRegistry: ""
+imagePullPolicy: Never
+
+accelerationCalc:
+  image: 
+    name: acccalc
+  service:
+    type: LoadBalancer
+    port: 3000
+
+accelerationDv:
+  image:
+    name: accdv
+  service:
+    type: ClusterIP
+    port: 3001
+  
+accelerationA:
+  image:
+    name: acca
+  service:
+    type: ClusterIP
+    port: 3002

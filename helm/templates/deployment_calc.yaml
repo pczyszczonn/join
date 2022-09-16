@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "devops-challenge.fullname" . }}-calc"
+  labels:
+    app: accelerationCalc
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: accelerationCalc
+  template:
+    metadata:
+      labels:
+        app: accelerationCalc
+    spec:
+      containers:
+        - name: "{{ .Chart.Name }}-acceletarion-calc"
+          image: "{{ .Values.imageRegistry }}{{ .Values.accelerationCalc.image.name }}:{{ .Values.accelerationCalc.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          command: ["yarn", "start"]
+          env:
+            - name: WEB_PORT
+              value: "3000"
+            - name: DV_URL
+              value: "http://acceleration-dv-svc.default:3001/dv"
+            - name: A_URL
+              value: "http://acceleration-a-svc.default:3002/a"

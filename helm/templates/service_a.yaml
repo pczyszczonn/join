@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: acceleration-a-svc
+spec:
+  type: {{ .Values.accelerationA.service.type }}
+  ports:
+    - port: {{ .Values.accelerationA.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: accelerationA      
