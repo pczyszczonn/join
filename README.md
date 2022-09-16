@@ -18,7 +18,7 @@ Alternatively, push images in external registry and change imageRegistry and ima
 4. Deploy app
 
 ```
-helm install devops-challenge -f helm/values.yaml helm/
+helm install devops-challenge -f helm/values.yaml helm
 ```
 
 5. Enable service external IP
